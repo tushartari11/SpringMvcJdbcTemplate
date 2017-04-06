@@ -1,5 +1,8 @@
 package net.codejava.spring.controller;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,14 +23,14 @@ public class TimeSheetController {
 	@Autowired
 	private DateUtil dateUtil;
 
-	// @RequestMapping(value="/")
-	// public ModelAndView listTimesheet(ModelAndView model) throws IOException{
-	//// List<Contact> listContact = timesheetDAO.list();
-	// model.addObject("listContact", listContact);
-	// model.setViewName("home");
-	//
-	// return model;
-	// }
+	 @RequestMapping(value="/timesheet")
+	 public ModelAndView listTimesheet(ModelAndView model) throws IOException{
+	 List<Timesheet> listTimesheetDetails = timesheetDAO.list();
+	 model.addObject("listTimesheetDetails", listTimesheetDetails);
+	 model.setViewName("timesheet");
+	
+	 return model;
+	 }
 
 	@RequestMapping(value = "/newTimesheet", method = RequestMethod.GET)
 	public ModelAndView newTimesheet(ModelAndView model) {
@@ -49,6 +52,6 @@ public class TimeSheetController {
 		timesheet.setTotalHoursDecimal(totalHoursDecimal);
 		timesheet.setManDays(manDays);
 		timesheetDAO.saveOrUpdate(timesheet);
-		return new ModelAndView("redirect:/");
+		return new ModelAndView("redirect:/timesheet");
 	}
 }
