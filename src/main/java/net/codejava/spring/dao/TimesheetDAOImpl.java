@@ -8,10 +8,11 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 
-import net.codejava.spring.model.Contact;
 import net.codejava.spring.model.Timesheet;
 import net.codejava.spring.util.DateUtil;
 
@@ -31,7 +32,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 		if (timesheet.getId() > 0) {
 			// update
 			String sql = "UPDATE timesheetdetails SET timesheet_date=?, login_time=?, logout_time=?, "
-					+ "lunch_duration=?, total_worked_hours=?, total_decimated_hours=?, man_days=?, created_date=?, modified_date=?  WHERE timesheet_id=?";
+					+ "lunch_duration=?, total_worked_hours=?, total_decimated_hours=?, man_days=?, created_date=?, modified_date=?  WHERE id=?";
 			jdbcTemplate.update(sql, timesheet.getLoginDate(), timesheet.getLoginTime(), timesheet.getLogoutTime(),
 					timesheet.getLunchDuration(), timesheet.getTotalHours(), timesheet.getTotalHoursDecimal(),
 					timesheet.getManDays(), timesheet.getCreatedDate(), new Date(), timesheet.getId());
@@ -55,14 +56,37 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 	}
 
 	@Override
-	public Contact get(int timesheetId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Timesheet get(int timesheetId) {
+		String sql = "SELECT * FROM timesheetdetails WHERE id=" + timesheetId;
+		return jdbcTemplate.query(sql, new ResultSetExtractor<Timesheet>() {
+
+			@Override
+			public Timesheet extractData(ResultSet rs) throws SQLException,
+					DataAccessException {
+				if (rs.next()) {
+					Timesheet timesheet = new Timesheet();
+					timesheet.setId(rs.getInt("id"));
+					timesheet.setLoginDate(rs.getString("timesheet_date"));
+					timesheet.setLoginTime(rs.getString("login_time"));
+					timesheet.setLogoutTime(rs.getString("logout_time"));
+					timesheet.setLunchDuration(rs.getString("lunch_duration"));
+					timesheet.setTotalHours(rs.getString("total_worked_hours"));
+					timesheet.setTotalHoursDecimal(rs.getDouble("total_decimated_hours"));
+					timesheet.setManDays(rs.getDouble("man_days"));
+					timesheet.setCreatedDate(rs.getString("created_date"));
+					timesheet.setModifiedDate(rs.getString("modified_date"));
+					return timesheet;
+				}
+				
+				return null;
+			}
+			
+		});
 	}
 
 	@Override
 	public List<Timesheet> list() {
-		String sql = "SELECT * FROM timesheetdetails order by timesheet_date";
+		String sql = "SELECT * FROM timesheetdetails order by timesheet_date desc";
 		List<Timesheet> listTimesheetDetail = jdbcTemplate.query(sql, new RowMapper<Timesheet>() {
 
 			@Override
@@ -71,6 +95,7 @@ public class TimesheetDAOImpl implements TimesheetDAO {
 
 				timesheetDetail.setId(rs.getInt("id"));
 				timesheetDetail.setLoginDate(rs.getString("timesheet_date"));
+//				timesheetDetail.setLoginDay(dateUtil.getDayFromDate(rs.getString("timesheet_date")));
 				timesheetDetail.setLoginTime(rs.getString("login_time"));
 				timesheetDetail.setLogoutTime(rs.getString("logout_time"));
 				timesheetDetail.setLunchDuration(rs.getString("lunch_duration"));

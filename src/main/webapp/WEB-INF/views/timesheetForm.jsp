@@ -13,6 +13,8 @@
 		<h1>New/Edit Time sheet Details</h1>
 		<form:form action="saveTimesheet" method="post"
 			modelAttribute="timesheet">
+
+			<input type="text" id="empName" value="" />
 			<table>
 				<form:hidden path="id" />
 				<tr>
@@ -25,15 +27,16 @@
 				</tr>
 				<tr>
 					<td>Logout Time:</td>
-					<td><form:input path="logoutTime" id="logoutTimepicker"/></td>
+					<td><form:input path="logoutTime" id="logoutTimepicker" /></td>
 				</tr>
 				<tr>
 					<td>Lunch Duration:</td>
-					<td><form:input path="lunchDuration" id="lunchDurationTimepicker"/></td>
+					<td><form:input path="lunchDuration"
+							id="lunchDurationTimepicker" /></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type="submit"
-						value="Save"></td>
+					<td colspan="2" align="center"><input id="saveButton"
+						type="submit" value="Save"></td>
 				</tr>
 			</table>
 		</form:form>
@@ -48,9 +51,10 @@
 <script>
 	$(function() {
 		$('#loginDateTimepicker').datetimepicker({
-			  format:'d-m-Y',
-			  timepicker:false
-			});
+			format : 'd-m-Y',
+			timepicker : false
+		});
+
 	});
 	$('#loginTimepicker').datetimepicker({
 		datepicker : false,
@@ -60,11 +64,12 @@
 		datepicker : false,
 		format : 'H:i'
 	});
-	$('#lunchDurationTimepicker').datetimepicker({
-		datepicker : false,
-		format : 'H:i',
-		allowTimes:['00:15', '00:30', '00:45','01:00'
-			,'01:15','01:30','01:45','01:00']
-	});
+	$('#lunchDurationTimepicker').datetimepicker(
+			{
+				datepicker : false,
+				format : 'H:i',
+				allowTimes : [ '00:15', '00:30', '00:45', '01:00', '01:15',
+						'01:30', '01:45', '01:00' ]
+			});
 </script>
 </html>

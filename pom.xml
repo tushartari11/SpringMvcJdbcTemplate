@@ -74,7 +74,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>SpringMvcJdbcTemplate</finalName>
+	<finalName>SpringMvcJdbcTemplate</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

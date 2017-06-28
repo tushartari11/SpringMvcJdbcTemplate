@@ -3,6 +3,7 @@ package net.codejava.spring.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
@@ -78,5 +79,19 @@ public class DateUtil {
 			e.printStackTrace();
 		}
         return outputSqlDate;
+	}
+	
+	public String getDayFromDate(String dateInString) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		String dayOfWeek=null ;
+		try {
+			Date date = sdf.parse(dateInString);
+			System.out.println("Date : "+ date);
+			DateFormat format2=new SimpleDateFormat("EE"); 
+			dayOfWeek= format2.format(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return dayOfWeek.toUpperCase();
 	}
 }

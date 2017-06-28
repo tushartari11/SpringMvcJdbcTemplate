@@ -19,9 +19,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+@EnableWebMvc
 @Configuration
 @ComponentScan(basePackages="net.codejava.spring")
-@EnableWebMvc
 public class MvcConfiguration extends WebMvcConfigurerAdapter{
 
 	@Bean
@@ -37,7 +37,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 		if (!registry.hasMappingForPattern("/static/**")) {
 			registry.addResourceHandler("/static/**").addResourceLocations(
-					"classpath:/META-INF/resources/static/");
+					"/static/");
 		}
 	}
 
@@ -47,7 +47,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/timesheet");
 		dataSource.setUsername("root");
-		dataSource.setPassword("admin");
+		dataSource.setPassword("root");
 		
 		return dataSource;
 	}

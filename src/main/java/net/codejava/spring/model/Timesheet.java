@@ -5,6 +5,7 @@ public class Timesheet {
 	
 	private int id;
 	private String loginDate;
+	private String loginDay;
 	private String loginTime;
 	private String logoutTime;
 	private String lunchDuration;
@@ -74,11 +75,21 @@ public class Timesheet {
 	public void setModifiedDate(String modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
+	
+
+	public String getLoginDay() {
+		return loginDay;
+	}
+	public void setLoginDay(String loginDay) {
+		this.loginDay = loginDay;
+	}
+	
 	@Override
 	public String toString() {
-		return "Timesheet [id=" + id + ", loginDate=" + loginDate + ", loginTime=" + loginTime + ", logoutTime="
-				+ logoutTime + ", lunchDuration=" + lunchDuration + ", totalHours=" + totalHours
-				+ ", totalHoursDecimal=" + totalHoursDecimal + ", manDays=" + manDays + ", createdDate=" + createdDate
-				+ ", modifiedDate=" + modifiedDate + "]";
+		return "Timesheet [id=" + id + ", loginDate=" + loginDate + ", loginDay=" + loginDay + ", loginTime="
+				+ loginTime + ", logoutTime=" + logoutTime + ", lunchDuration=" + lunchDuration + ", totalHours="
+				+ totalHours + ", totalHoursDecimal=" + totalHoursDecimal + ", manDays=" + manDays + ", createdDate="
+				+ createdDate + ", modifiedDate=" + modifiedDate + "]";
 	}
+
 }

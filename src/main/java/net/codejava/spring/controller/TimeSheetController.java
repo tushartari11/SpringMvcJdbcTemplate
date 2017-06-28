@@ -3,8 +3,11 @@ package net.codejava.spring.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +34,7 @@ public class TimeSheetController {
 	
 	 return model;
 	 }
+	  
 
 	@RequestMapping(value = "/newTimesheet", method = RequestMethod.GET)
 	public ModelAndView newTimesheet(ModelAndView model) {
@@ -54,4 +58,18 @@ public class TimeSheetController {
 		timesheetDAO.saveOrUpdate(timesheet);
 		return new ModelAndView("redirect:/timesheet");
 	}
+	
+	@RequestMapping(value="/editTimeSheet")
+	 public ModelAndView editTimesheet(ModelAndView model, HttpServletRequest request) throws IOException{
+		int timesheetId = 0;
+		if (!StringUtils.isEmpty(request.getParameter("id"))) {
+			timesheetId = Integer.parseInt(request.getParameter("id"));
+		}
+		
+	 Timesheet timesheetDetail = timesheetDAO.get(timesheetId);
+	 model.addObject("timesheet", timesheetDetail);
+	 model.setViewName("timesheetForm");
+	
+	 return model;
+	 }
 }
